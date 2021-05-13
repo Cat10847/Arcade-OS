@@ -1,0 +1,22 @@
+{
+    "Bpg9;yrnfTOA!X*8kN?6": {
+        "data": "hwQGAAYAAAANANAA3QDdAA3d0AAN3dAA3QDdAA0A0AA=",
+        "mimeType": "image/x-mkcd-f4",
+        "displayName": "timerLoadingStatic"
+    },
+    "g-fZ`kxNnxNl2,RD_0rz": {
+        "data": "hwQGAAYAAAAQEQEAERERABEREQAREREAERERABARAQA=",
+        "mimeType": "image/x-mkcd-f4",
+        "displayName": "mouseNotClicked"
+    },
+    "T41Ys30To[E-1aPAt`{3": {
+        "data": "hwQGAAYAAAAAAAAAABEAABARAQAQEQEAABEAAAAAAAA=",
+        "mimeType": "image/x-mkcd-f4",
+        "displayName": "mouseClicked"
+    },
+    "*": {
+        "mimeType": "image/x-mkcd-f4",
+        "dataEncoding": "base64",
+        "namespace": "myImages"
+    }
+}
