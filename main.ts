@@ -1,11 +1,16 @@
 namespace SpriteKind {
     export const Icon = SpriteKind.create()
 }
+/**
+ * ArcadeOS 1.0
+ * 
+ * codename Kitronik OS
+ */
 controller.A.onEvent(ControllerButtonEvent.Pressed, function () {
     if (ready) {
         mouse.setImage(assets.image`mouseClicked`)
         if (mouse.overlapsWith(start)) {
-            story.showPlayerChoices("Files", "System actions", "Close")
+            story.showPlayerChoices("Files", "System actions", "Mailbox", "Close")
             if (story.checkLastAnswer("Files")) {
                 story.showPlayerChoices("Edit", "Read", "Erase", "Close")
                 if (story.checkLastAnswer("Edit")) {
@@ -300,6 +305,25 @@ controller.A.onEvent(ControllerButtonEvent.Pressed, function () {
                     pause(1000)
                     game.reset()
                 }
+            } else if (story.checkLastAnswer("Mailbox")) {
+                story.showPlayerChoices("Compose", "Inbox", "Set radio group", "Close")
+                if (story.checkLastAnswer("Compose")) {
+                    radio.sendString(game.askForString("Compose an E-Mail", 24))
+                } else if (story.checkLastAnswer("Inbox")) {
+                    if (mail.length == 1) {
+                        story.showPlayerChoices(mail[1], "Close")
+                    } else if (mail.length == 2) {
+                        story.showPlayerChoices(mail[1], mail[2], "Close")
+                    } else if (mail.length == 3) {
+                        story.showPlayerChoices(mail[1], mail[2], mail[3], "Close")
+                    } else if (mail.length == 4) {
+                        story.showPlayerChoices(mail[1], mail[2], mail[3], mail[4])
+                    } else if (mail.length == 0) {
+                        game.splash("Empty!", "Try sending one?")
+                    }
+                } else if (story.checkLastAnswer("Set radio group")) {
+                    radio.setGroup(game.askForNumber("Set radio group", 3))
+                }
             }
         }
     }
@@ -308,6 +332,12 @@ controller.A.onEvent(ControllerButtonEvent.Released, function () {
     if (ready) {
         mouse.setImage(assets.image`mouseNotClicked`)
     }
+})
+radio.onReceivedString(function (receivedString) {
+    if (mail.length == 4) {
+        mail.shift()
+    }
+    mail.unshift(receivedString)
 })
 controller.menu.onEvent(ControllerButtonEvent.Pressed, function () {
     if (ready) {
@@ -609,18 +639,17 @@ controller.menu.onEvent(ControllerButtonEvent.Pressed, function () {
         }
     }
 })
-/**
- * ArcadeOS 1.0
- * 
- * codename Kitronik OS
- */
 let startpointY = 0
 let startpointX = 0
 let mouse: Sprite = null
 let start: Sprite = null
+let pass = ""
 let loadingText: TextSprite = null
 let loadingIcon: Sprite = null
 let ready = false
+let mail: string[] = []
+mail = []
+radio.setGroup(1)
 game.setDialogCursor(img`
     . . 6 6 6 6 6 6 6 6 . . 
     . 6 6 6 6 6 6 6 6 6 6 . 
@@ -665,7 +694,6 @@ loadingText.setPosition(80, 91)
 pause(5000)
 loadingIcon.destroy()
 loadingText.destroy()
-let pass = ""
 if (blockSettings.exists("password")) {
     while (!(pass == blockSettings.readString("password"))) {
         pass = game.askForString("Enter password")
@@ -1715,7 +1743,7 @@ mouse,
     1 1 . . 1 1 
     1 . . . . 1 
     `],
-500,
+300,
 true
 )
 pause(5000)
